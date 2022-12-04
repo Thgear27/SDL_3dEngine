@@ -1,19 +1,29 @@
 #include "MyEngine.hpp"
 #include <iostream>
 
-myEngine::myEngine() : window{ "Ventana", 1280, 720 } {}
+myEngine::myEngine() : window{ "Ventana", 1280, 720 } {
+    keyState = SDL_GetKeyboardState(nullptr);
+}
 
 myEngine::~myEngine() {}
 
 void myEngine::handleEvents() {
     SDL_Event evt; 
-    eventHandler.updateEvent(evt);
 
-    if(eventHandler.quitEvent) 
+    while (SDL_PollEvent(&evt)) {
+        if(evt.type == SDL_QUIT) 
+            window.close();
+    }
+
+    if(keyState[SDL_SCANCODE_ESCAPE])
         window.close();
 
-    if(eventHandler.isKeyPressed(SDL_SCANCODE_ESCAPE))
-        window.close();
+    if(keyState[SDL_SCANCODE_UP]) {
+        std::cout << "HOLA" << '\n';
+    }
+    if(keyState[SDL_SCANCODE_DOWN]) {
+        std::cout << "GA" << '\n';
+    }
 }
 
 bool myEngine::isRunning() {

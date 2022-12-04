@@ -2,12 +2,12 @@
 #define __ENGINE3D_H__
 
 #include "Window.hpp"
-#include "EventHandler.hpp"
 
 class myEngine {
 private:
     Window window;
-    EventHandler eventHandler;
+
+    const Uint8* keyState;
 
 public:
     myEngine();
