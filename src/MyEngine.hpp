@@ -7,7 +7,7 @@ class myEngine {
 private:
     Window window;
 
-    const Uint8* keyState;
+    const Uint8* keyState = nullptr;
 
 public:
     myEngine();

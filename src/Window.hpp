@@ -6,13 +6,14 @@
 
 class Window {
 private:
-    SDL_Window* window_ptr = nullptr;
+    SDL_Window* window_ptr     = nullptr;
     SDL_Renderer* renderer_ptr = nullptr;
     int m_isRunning;
+
 public:
     Window(const std::string& name, int with, int height);
     ~Window();
-    
+
     void close();
     bool isRunning();
     SDL_Renderer* getRendererPointer();
