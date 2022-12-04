@@ -17,13 +17,6 @@ void myEngine::handleEvents() {
 
     if(keyState[SDL_SCANCODE_ESCAPE])
         window.close();
-
-    if(keyState[SDL_SCANCODE_UP]) {
-        std::cout << "HOLA" << '\n';
-    }
-    if(keyState[SDL_SCANCODE_DOWN]) {
-        std::cout << "GA" << '\n';
-    }
 }
 
 bool myEngine::isRunning() {
