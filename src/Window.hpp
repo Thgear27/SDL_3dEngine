@@ -15,6 +15,9 @@ public:
     
     void close();
     bool isRunning();
+
+    const int m_width;
+    const int m_height;
 };
 
 #endif // __WINDOW_H__

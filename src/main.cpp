@@ -1,12 +1,13 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_render.h>
 
-#include "Engine3D.hpp"
+#include "MyEngine.hpp"
+#include "Renderer.hpp"
 
 int main() {
     SDL_Init(SDL_INIT_VIDEO);
 
-    Engine3D myEngineIntance;
+    myEngine myEngineIntance;
 
     while (myEngineIntance.isRunning()) {
         myEngineIntance.handleEvents();

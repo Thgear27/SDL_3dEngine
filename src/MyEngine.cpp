@@ -1,16 +1,16 @@
-#include "Engine3D.hpp"
+#include "MyEngine.hpp"
 #include <iostream>
 
-Engine3D::Engine3D() : window{ "HOLA", 1280, 720 }
+myEngine::myEngine() : window{ "HOLA", 1280, 720 }
 {
     std::cout << "Engine3D creado" << '\n';
 }
 
-Engine3D::~Engine3D() {
+myEngine::~myEngine() {
     
 }
 
-void Engine3D::handleEvents() {
+void myEngine::handleEvents() {
     SDL_Event evt; 
     eventHandler.updateEvent(evt);
 
@@ -26,14 +26,13 @@ void Engine3D::handleEvents() {
     }
 }
 
-void Engine3D::update() {
-    
+void myEngine::update() {
+
 }
 
-void Engine3D::renderAll() {
-    
+void myEngine::renderAll() {
 }
 
-bool Engine3D::isRunning() {
+bool myEngine::isRunning() {
     return window.isRunning();
 }

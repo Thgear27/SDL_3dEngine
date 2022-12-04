@@ -1,6 +1,6 @@
 #include "Window.hpp"
 
-Window::Window(const std::string& name, int width, int height) {
+Window::Window(const std::string& name, int width, int height) : m_width{width}, m_height{height} {
     window_ptr = SDL_CreateWindow(
         name.c_str(),
         SDL_WINDOWPOS_CENTERED,

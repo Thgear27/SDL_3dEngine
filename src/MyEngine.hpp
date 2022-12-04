@@ -4,14 +4,14 @@
 #include "Window.hpp"
 #include "EventHandler.hpp"
 
-class Engine3D {
+class myEngine {
 private:
     Window window;
     EventHandler eventHandler;
 
 public:
-    Engine3D();
-    ~Engine3D();
+    myEngine();
+    ~myEngine();
 
     void handleEvents();
     void update();
