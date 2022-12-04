@@ -15,6 +15,7 @@ public:
     
     void close();
     bool isRunning();
+    SDL_Renderer* getRendererPointer();
 
     const int m_width;
     const int m_height;

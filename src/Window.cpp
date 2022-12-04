@@ -26,3 +26,7 @@ void Window::close() {
 bool Window::isRunning() {
     return m_isRunning;
 }
+
+SDL_Renderer* Window::getRendererPointer() {
+    return renderer_ptr;
+}

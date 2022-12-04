@@ -1,14 +1,9 @@
 #include "MyEngine.hpp"
 #include <iostream>
 
-myEngine::myEngine() : window{ "HOLA", 1280, 720 }
-{
-    std::cout << "Engine3D creado" << '\n';
-}
+myEngine::myEngine() : window{ "Ventana", 1280, 720 } {}
 
-myEngine::~myEngine() {
-    
-}
+myEngine::~myEngine() {}
 
 void myEngine::handleEvents() {
     SDL_Event evt; 
@@ -17,22 +12,30 @@ void myEngine::handleEvents() {
     if(eventHandler.quitEvent) 
         window.close();
 
-    if (eventHandler.isKeyPressed(SDL_SCANCODE_UP)) {
-        std::cout << "UP key was pressed\n";
-    }
-
-    if (eventHandler.isKeyPressed(SDL_SCANCODE_DOWN)) {
-        std::cout << "DOWN key was pressed\n";
-    }
-}
-
-void myEngine::update() {
-
-}
-
-void myEngine::renderAll() {
+    if(eventHandler.isKeyPressed(SDL_SCANCODE_ESCAPE))
+        window.close();
 }
 
 bool myEngine::isRunning() {
     return window.isRunning();
+}
+
+///////////////////////////////////////////////////////////////////
+//// RENDER FUNCTIONS
+
+void drawPixel(int x, int y, SDL_Renderer* renderer) {
+    SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
+    SDL_RenderDrawPoint(renderer, x, y);
+    SDL_RenderPresent(renderer);
+}
+
+void clearScreen(SDL_Renderer* renderer) {
+    SDL_SetRenderDrawColor(renderer, 10, 10, 10, SDL_ALPHA_OPAQUE);
+    SDL_RenderClear(renderer);
+}
+
+void myEngine::renderAll() {
+    SDL_Renderer* renderer = window.getRendererPointer();
+    clearScreen(renderer);
+    drawPixel(20, 20, renderer);
 }
