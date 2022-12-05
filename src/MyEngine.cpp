@@ -81,11 +81,6 @@ void triangle(vec3f* verts, Window* window) {
     }
 }
 
-void clearScreen(SDL_Renderer* renderer) {
-    SDL_SetRenderDrawColor(renderer, 10, 10, 10, SDL_ALPHA_OPAQUE);
-    SDL_RenderClear(renderer);
-}
-
 void myEngine::renderAll() {
 
     float h = (std::sin((float)SDL_GetTicks() / 1000) / 2.0f) + 0.5;
@@ -97,10 +92,28 @@ void myEngine::renderAll() {
         vec3f { 20, 170, 0 } //
     };
 
+    vec3f verts2[] {
+        vec3f { 20, 20, 0 }, //
+        vec3f { 230, 1, 0 }, //
+        vec3f { h, 100, 0 } //
+    };
+
+    vec3f verts3[] {
+        vec3f { h, 20, 0 }, //
+        vec3f { 230, 1, 0 }, //
+        vec3f { h, 100, 0 } //
+    };
+
+    vec3f verts4[] {
+        vec3f { 20, h, 0 }, //
+        vec3f { 230, 1, 0 }, //
+        vec3f { h, 100, 0 } //
+    };
+
     window.clearScreen();
     triangle(triangleVerts, &window);
-    line(vec2i { 20, 20 }, vec2i { 230, (int)h }, &window);
-    line(vec2i { 20, 170 }, vec2i { 230, (int)h }, &window);
-    line(vec2i { 20, 20 }, vec2i { 20, 170 }, &window);
+    triangle(verts2, &window);
+    triangle(verts3, &window);
+    triangle(verts4, &window);
     window.show();
 }
