@@ -1,4 +1,5 @@
 #include "Window.hpp"
+#include "iostream"
 
 Window::Window(const std::string& name, int width, int height)
     : m_width { width / 4 }
@@ -13,14 +14,15 @@ Window::Window(const std::string& name, int width, int height)
     );
 
     renderer_ptr = SDL_CreateRenderer(window_ptr, -1, SDL_RENDERER_ACCELERATED);
-    texture_ptr = SDL_CreateTexture(renderer_ptr, SDL_PIXELFORMAT_ABGR8888, SDL_TEXTUREACCESS_STREAMING, m_width, m_height);
+    texture_ptr =
+        SDL_CreateTexture(renderer_ptr, SDL_PIXELFORMAT_ABGR8888, SDL_TEXTUREACCESS_STREAMING, m_width, m_height);
 
     screenPixels = new Uint32[width * height];
 
     // pitch = 4 * m_width;
     // SDL_LockTexture(texture_ptr, nullptr, (void**)&screenPixels, &pitch);
 
-    m_isRunning  = true;
+    m_isRunning = true;
 }
 
 Window::~Window() {
@@ -43,8 +45,9 @@ void Window::clearScreen() {
 }
 
 void Window::drawPixel(int x, int y, Color color) {
-    if ( x > m_width || y > m_height ) return;
-    screenPixels[y * m_width + x] = color.raw; 
+    if (x > m_width || y > m_height) return;
+    if (x < 0 || y < 0) return;
+    screenPixels[y * m_width + x] = color.raw;
 }
 
 void Window::show() {

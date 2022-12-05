@@ -30,7 +30,7 @@ bool myEngine::isRunning() { return window.isRunning(); }
 ///////////////////////////////////////////////////////////////////
 //// RENDER FUNCTIONS
 
-void line(vec2i p1, vec2i p2, Window* window) {
+void line(vec3f p1, vec3f p2, Window* window) {
     bool inverted_plane = false;
     if (std::abs(p2.y - p1.y) > std::abs(p2.x - p1.x)) { // Triangulo con pendiente mayor a 1
         std::swap(p1.x, p1.y);
@@ -112,5 +112,8 @@ void myEngine::renderAll() {
 
     window.clearScreen();
     triangle(triangleVerts, &window);
+    line(triangleVerts[0], triangleVerts[1], &window);
+    line(triangleVerts[1], triangleVerts[2], &window);
+    line(triangleVerts[0], triangleVerts[2], &window);
     window.show();
 }
