@@ -101,6 +101,6 @@ void myEngine::renderAll() {
     triangle(triangleVerts, &window);
     line(vec2i { 20, 20 }, vec2i { 230, (int)h }, &window);
     line(vec2i { 20, 170 }, vec2i { 230, (int)h }, &window);
-    line(vec2i { 20, 95 }, vec2i { 230, (int)h }, &window);
+    line(vec2i { 20, 20 }, vec2i { 20, 170 }, &window);
     window.show();
 }
