@@ -13,11 +13,11 @@ int main() {
     Uint32 startTime, frame_time;
 
     while (myEngineIntance.isRunning()) {
-        startTime = SDL_GetTicks64();
+        // startTime = SDL_GetTicks64();
         myEngineIntance.handleEvents();
         myEngineIntance.renderAll();
-        frame_time = SDL_GetTicks64() - startTime;
-        std::cerr << 1000.f / frame_time << '\n';
+        // frame_time = SDL_GetTicks64() - startTime;
+        // std::cerr << 1000.f / frame_time << '\n';
     }
 
     SDL_Quit();

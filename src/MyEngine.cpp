@@ -84,7 +84,7 @@ void triangle(vec3f* verts, Window* window) {
 
 void myEngine::renderAll() {
 
-    float h = (3.14f * std::sin((float)SDL_GetTicks() / 1000));
+    float h = (std::sin((float)SDL_GetTicks() / 1000));
 
     vec3f triangleVerts[] {
         vec3f { 50, 50, 0 },  //
@@ -105,8 +105,6 @@ void myEngine::renderAll() {
     Matrix mat = MatrixIdentity<3>();
     mat[0][1]  = h;
     mat[1][0]  = h; 
-
-    
 
     for (int i = 0; i < 3; i++) {
         triangleVerts[i] = rot * triangleVerts[i];
