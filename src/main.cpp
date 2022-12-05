@@ -2,6 +2,7 @@
 #include <SDL2/SDL_render.h>
 
 #include "MyEngine.hpp"
+#include "myGL/Vector.hpp"
 
 int main() {
     SDL_Init(SDL_INIT_VIDEO);
