@@ -1,5 +1,6 @@
 #include "MyEngine.hpp"
 #include "myGL/Color.hpp"
+#include "myGL/Matrix.hpp"
 #include "myGL/Vector.hpp"
 #include <iostream>
 
@@ -83,37 +84,35 @@ void triangle(vec3f* verts, Window* window) {
 
 void myEngine::renderAll() {
 
-    float h = (std::sin((float)SDL_GetTicks() / 1000) / 2.0f) + 0.5;
-    h       = h * 170;
+    float h = (3.14f * std::sin((float)SDL_GetTicks() / 1000));
 
     vec3f triangleVerts[] {
-        vec3f { 20, 20, 0 }, //
-        vec3f { 230, h, 0 }, //
-        vec3f { 20, 170, 0 } //
+        vec3f { 50, 50, 0 },  //
+        vec3f { 170, 90, 0 }, //
+        vec3f { 50, 130, 0 }  //
     };
 
-    vec3f verts2[] {
-        vec3f { 20, 20, 0 }, //
-        vec3f { 230, 1, 0 }, //
-        vec3f { h, 100, 0 } //
-    };
+    Matrix rot = MatrixIdentity<3>();
+    rot[0][0]        = std::cos(h);
+    rot[0][1]        = -std::sin(h);
+    rot[1][0]        = std::sin(h);
+    rot[1][1]        = std::cos(h);
+    // rot[0][0] = std::cos (h);
+    // rot[0][2] = std::sin (h);
+    // rot[2][0] = -std::sin(h);
+    // rot[2][2] = std::cos (h);
 
-    vec3f verts3[] {
-        vec3f { h, 20, 0 }, //
-        vec3f { 230, 1, 0 }, //
-        vec3f { h, 100, 0 } //
-    };
+    Matrix mat = MatrixIdentity<3>();
+    mat[0][1]  = h;
+    mat[1][0]  = h; 
 
-    vec3f verts4[] {
-        vec3f { 20, h, 0 }, //
-        vec3f { 230, 1, 0 }, //
-        vec3f { h, 100, 0 } //
-    };
+    
+
+    for (int i = 0; i < 3; i++) {
+        triangleVerts[i] = rot * triangleVerts[i];
+    }
 
     window.clearScreen();
     triangle(triangleVerts, &window);
-    triangle(verts2, &window);
-    triangle(verts3, &window);
-    triangle(verts4, &window);
     window.show();
 }

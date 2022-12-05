@@ -5,9 +5,24 @@
 
 template <int size, typename type>
 struct vec {
-    type data[size];
+    type data[size]{};
 
     vec() {};
+    
+    vec(const vec& cpyvec) {
+        for (int i = 0; i < size; i++) {
+            data[i] = cpyvec[i];
+        }
+    }
+
+    vec& operator=(const vec& cpyvec) {
+        if (this == &cpyvec) return *this;
+
+        for (int i = 0; i < size; i++) {
+            data[i] = cpyvec[i];
+        }
+        return *this;
+    }
 
     inline type& operator[](const int index) { return data[index]; };
     inline type operator[](const int index) const { return data[index]; };
@@ -38,6 +53,21 @@ struct vec<4, type> {
         , y { l_y }
         , z { l_z }
         , w { l_w } {};
+    
+    vec(const vec& cpyvec) {
+        for (int i = 0; i < 4; i++) {
+            data[i] = cpyvec[i];
+        }
+    }
+
+    vec& operator=(const vec& cpyvec) {
+        if (this == &cpyvec) return *this;
+
+        for (int i = 0; i < 4; i++) {
+            data[i] = cpyvec[i];
+        }
+        return *this;
+    }
 
     inline type& operator[](const int index) { return data[index]; };
     inline type operator[](const int index) const { return data[index]; };
@@ -62,10 +92,26 @@ struct vec<3, type> {
     };
 
     vec() {};
+
     vec(type l_x, type l_y, type l_z)
         : x { l_x }
         , y { l_y }
         , z { l_z } {};
+
+    vec(const vec& cpyvec) {
+        for (int i = 0; i < 3; i++) {
+            data[i] = cpyvec[i];
+        }
+    }
+
+    vec& operator=(const vec& cpyvec) {
+        if (this == &cpyvec) return *this;
+
+        for (int i = 0; i < 3; i++) {
+            data[i] = cpyvec[i];
+        }
+        return *this;
+    }
 
     inline type& operator[](const int index) { return data[index]; };
     inline type operator[](const int index) const { return data[index]; };
@@ -94,6 +140,21 @@ struct vec<2, type> {
     vec(type l_x, type l_y)
         : x { l_x }
         , y { l_y } {};
+
+    vec(const vec& cpyvec) {
+        for (int i = 0; i < 2; i++) {
+            data[i] = cpyvec[i];
+        }
+    }
+
+    vec& operator=(const vec& cpyvec) {
+        if (this == &cpyvec) return *this;
+
+        for (int i = 0; i < 2; i++) {
+            data[i] = cpyvec[i];
+        }
+        return *this;
+    }
 
     inline type& operator[](const int index) { return data[index]; };
     inline type operator[](const int index) const { return data[index]; };
