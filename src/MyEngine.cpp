@@ -2,6 +2,7 @@
 #include "myGL/Color.hpp"
 #include "myGL/Matrix.hpp"
 #include "myGL/Vector.hpp"
+#include "myGL/myGL.hpp"
 #include <iostream>
 
 const int width  = 960;
@@ -30,90 +31,31 @@ bool myEngine::isRunning() { return window.isRunning(); }
 ///////////////////////////////////////////////////////////////////
 //// RENDER FUNCTIONS
 
-void line(vec3f p1, vec3f p2, Window* window) {
-    bool inverted_plane = false;
-    if (std::abs(p2.y - p1.y) > std::abs(p2.x - p1.x)) { // Triangulo con pendiente mayor a 1
-        std::swap(p1.x, p1.y);
-        std::swap(p2.x, p2.y);
-        inverted_plane = true;
-    }
-
-    if (p1.x > p2.x) {
-        std::swap(p1, p2);
-    }
-
-    // Bresenham's algorithm
-    int dx  = p2.x - p1.x;
-    int dy  = p2.y - p1.y;
-    int dxe = std::abs(dy) - std::abs(dx);
-    int y   = p1.y; // punto inicial que ira aumentando
-    for (int x = p1.x; x <= p2.x; x++) {
-        if (!inverted_plane) window->drawPixel(x, y, Color { 1, 1, 1, 1 });
-        else window->drawPixel(y, x, Color { 1, 1, 1, 1 });
-
-        dxe += std::abs(dy);
-
-        if (dxe > 0) {
-            dxe -= dx;
-            y += (p2.y > p1.y) ? 1 : -1;
-        }
-    }
-}
-
-void triangle(vec3f* verts, Window* window) {
-    vec2f boxMin = vec2f { (float)window->m_width, (float)window->m_height };
-    vec2f boxMax = vec2f { 0, 0 };
-    for (int i = 0; i < 3; i++) {
-        boxMin.x = std::max(0.0f, std::min(boxMin.x, verts[i].x));
-        boxMin.y = std::max(0.0f, std::min(boxMin.y, verts[i].y));
-
-        boxMax.x = std::min((float)window->m_width, std::max(boxMax.x, verts[i].x));
-        boxMax.y = std::min((float)window->m_height, std::max(boxMax.y, verts[i].y));
-    }
-
-    for (int x = boxMin.x; x < boxMax.x; x++) {
-        for (int y = boxMin.y; y < boxMax.y; y++) {
-            vec3f bcoord = toBarycentricCoord(verts, vec2f { (float)x, (float)y });
-            //    r  g  b  a
-            Color color { bcoord.x, bcoord.y, bcoord.z, 1 };
-            if (bcoord.x < 0.0f || bcoord.y < 0.0f || bcoord.z < 0.0f) continue;
-            window->drawPixel(x, y, color);
-        }
-    }
-}
-
 void myEngine::renderAll() {
 
-    float h = (std::sin((float)SDL_GetTicks() / 1000));
+    float h = (3.14f * std::sin((float)SDL_GetTicks() / 1000));
 
     vec3f triangleVerts[] {
-        vec3f { 50, 50, 0 },  //
-        vec3f { 170, 90, 0 }, //
-        vec3f { 50, 130, 0 }  //
+        vec3f { 50, 50, -20 },  //
+        vec3f { 170, 90, -20 }, //
+        vec3f { 50, 130, -20 }  //
     };
 
-    Matrix rot = MatrixIdentity<3>();
-    rot[0][0]        = std::cos(h);
-    rot[0][1]        = -std::sin(h);
-    rot[1][0]        = std::sin(h);
-    rot[1][1]        = std::cos(h);
-    // rot[0][0] = std::cos (h);
-    // rot[0][2] = std::sin (h);
-    // rot[2][0] = -std::sin(h);
-    // rot[2][2] = std::cos (h);
+    vec4f toSendCoords[3];
 
-    Matrix mat = MatrixIdentity<3>();
-    mat[0][1]  = h;
-    mat[1][0]  = h; 
+    Matrix rot = rotatey(h);
+    Matrix rot2 = rotatex(h);
+    Matrix rot3 = rotatez(h);
+    Matrix perpective = simpleProjection(800);
+
+    Matrix ma1 = translate(window.m_width / 2, window.m_height / 2, 0);
+    Matrix ma2 = translate(-window.m_width / 2, -window.m_height / 2, 0);
 
     for (int i = 0; i < 3; i++) {
-        triangleVerts[i] = rot * triangleVerts[i];
+        toSendCoords[i] = ma1 * rot * rot2 * rot3 * ma2 * perpective * toHmgcoord(triangleVerts[i]);
     }
 
     window.clearScreen();
-    triangle(triangleVerts, &window);
-    line(triangleVerts[0], triangleVerts[1], &window);
-    line(triangleVerts[1], triangleVerts[2], &window);
-    line(triangleVerts[0], triangleVerts[2], &window);
+    myGL::triangle(toSendCoords, &window);
     window.show();
 }

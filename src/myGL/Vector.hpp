@@ -5,10 +5,10 @@
 
 template <int size, typename type>
 struct vec {
-    type data[size]{};
+    type data[size] {};
 
     vec() {};
-    
+
     vec(const vec& cpyvec) {
         for (int i = 0; i < size; i++) {
             data[i] = cpyvec[i];
@@ -53,7 +53,7 @@ struct vec<4, type> {
         , y { l_y }
         , z { l_z }
         , w { l_w } {};
-    
+
     vec(const vec& cpyvec) {
         for (int i = 0; i < 4; i++) {
             data[i] = cpyvec[i];
@@ -230,26 +230,47 @@ using vec4i = vec<4, int>;
 using vec4f = vec<4, float>;
 
 ////////////////////////////////////////////////////////////////////////////
-//// CALCULO DE COORDENADAS BARICENTRICAS 
+//// CALCULO DE COORDENADAS BARICENTRICAS
 
 inline vec3f toBarycentricCoord(vec3f* verts, vec2f point) {
-    vec3f pointv3 = vec3f { point.x, point .y, 0 };
+    vec3f pointv3 = vec3f { point.x, point.y, 0 };
 
     // Asumiendo r1, r2, r3 los vertices del triangulo, y p el punto
     // Variables que representan vectores matematicos
     vec3f r1_r2 = verts[1] - verts[0];
     vec3f r1_r3 = verts[2] - verts[0];
-    vec3f p_r1 = verts[0] - pointv3;
+    vec3f p_r1  = verts[0] - pointv3;
 
     // vec3f x_values { r1_r2.x, r1_r3.x, p_r1.x };
     // vec3f y_values { r1_r2.y, r1_r3.y, p_r1.y };
     vec3f vecRes = crossProduct(vec3f { r1_r2.x, r1_r3.x, p_r1.x }, vec3f { r1_r2.y, r1_r3.y, p_r1.y });
 
-    if (std::abs(vecRes.z) < 1e-2)
-        return vec3f { -1, 1, 1 };
+    if (std::abs(vecRes.z) < 1e-2) return vec3f { -1, 1, 1 };
 
     vecRes = vecRes / vecRes.z;
     return (vec3f { 1.0f - (vecRes.x + vecRes.y), vecRes.x, vecRes.y });
+}
+
+////////////////////////////////////////////////////////////////////////////
+//// HOMOGENEOUSR COORDINATES
+
+// Apply perpective division
+inline vec3f divW(const vec4f& vec) {
+    return vec3f {
+        vec.x / vec.w, //
+        vec.y / vec.w, //
+        vec.z / vec.w  //
+    };
+}
+
+// To homogeneous coordinates
+inline vec4f toHmgcoord(const vec3f& vec) {
+    return vec4f {
+        vec.x, //
+        vec.y, //
+        vec.z, //
+        1.f    //
+    };
 }
 
 #endif // __VECTOR_H__

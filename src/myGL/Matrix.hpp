@@ -106,6 +106,55 @@ static Matrix<size, size> MatrixIdentity() {
     return mat;
 }
 
+///////////////////////////////////////////////////////////////////////
+//// GL MATRIXES
 
+inline Matrix<4, 4> translate(int x, int y, int z) {
+    Matrix mat = MatrixIdentity<4>();
+    mat[0][3] = x;
+    mat[1][3] = y;
+    mat[2][3] = z;
+    return mat;
+}
+
+inline Matrix<4, 4> rotatex(float angle) {
+    Matrix mat = MatrixIdentity<4>();
+    mat[1][1] = std::cos(angle);
+    mat[1][2] = -std::sin(angle);
+    mat[2][1] = std::sin(angle);
+    mat[2][2] = std::cos(angle);
+    return mat;
+}
+
+inline Matrix<4, 4> rotatey(float angle) {
+    Matrix mat = MatrixIdentity<4>();
+    mat[0][0] = std::cos(angle);
+    mat[0][2] = std::sin(angle);
+    mat[2][0] = -std::sin(angle);
+    mat[2][2] = std::cos(angle);
+    return mat;
+}
+
+inline Matrix<4, 4> rotatez(float angle) {
+    Matrix mat = MatrixIdentity<4>();
+    mat[0][0] = std::cos(angle);
+    mat[0][1] = -std::sin(angle);
+    mat[1][0] = std::sin(angle);
+    mat[1][1] = std::cos(angle);
+    return mat;
+}
+
+inline Matrix<4, 4> shear(float x, float y) {
+    Matrix mat = MatrixIdentity<4>();
+    mat[0][1] = x;
+    mat[1][0] = y;
+    return mat;
+}
+
+inline Matrix<4, 4> simpleProjection(int zDistance) {
+    Matrix mat = MatrixIdentity<4>();
+    mat[3][2] = -1/(float)zDistance;
+    return mat;
+}
 
 #endif // __MATRIX_H__
