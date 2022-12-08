@@ -19,10 +19,11 @@ void triangle(vec4f* verts, Window* window, float* zbuffer) {
     }
 
     vec3f light_dir = vec3f { 0, 0, -1 };
-    vec3f normal    = crossProduct(v3verts[0] - v3verts[2], v3verts[1] - v3verts[2]);
+    vec3f normal    = crossProduct(v3verts[2] - v3verts[1], v3verts[2] - v3verts[0]);
     light_dir.normalize();
     normal.normalize();
     float intensidad = light_dir * normal;
+    // if ( intensidad < 0) intensidad = 0;
 
     for (int x = boxMin.x; x < boxMax.x; x++) {
         for (int y = boxMin.y; y < boxMax.y; y++) {

@@ -6,18 +6,16 @@
 #include <iostream>
 #include <limits>
 
-const int width  = 960;
+const int width  = 920;
 const int height = 720;
 
 myEngine::myEngine()
     : window { "Ventana", width, height } {
     keyState = SDL_GetKeyboardState(nullptr);
-    zbuffer = new float[window.m_width * window.m_height];
+    zbuffer  = new float[window.m_width * window.m_height];
 }
 
-myEngine::~myEngine() {
-    delete[] zbuffer;
-}
+myEngine::~myEngine() { delete[] zbuffer; }
 
 void myEngine::handleEvents() {
     SDL_Event evt;
@@ -107,23 +105,19 @@ void myEngine::renderAll() {
     Matrix rot           = rotatey(h);
     Matrix rot2          = rotatex(h);
     Matrix rot3          = rotatez(h);
-    Matrix perpectiveMat = simpleProjection(120, width / height, 800);
-    Matrix viewToWindow  = viewport(0, 0, window.m_width, window.m_height);
+    Matrix perpectiveMat = simpleProjection((float)width / height, 800);
+    Matrix viewToWindow  = viewport(0, 0, window.m_width, window.m_height, window.m_height);
 
-    Matrix ma1 = translate(window.m_width / 2, window.m_height / 2, 255 / 4);
-    Matrix ma2 = translate(-window.m_width / 2, -window.m_height / 2, -255 / 4);
+    Matrix ma1 = translate(window.m_width / 2, window.m_height / 2, 0);
+    Matrix ma2 = translate(-window.m_width / 2, -window.m_height / 2, 0);
 
     for (int i = 0; i < 36; i++) {
-        toSendCoords[i] = (ma1 * rot * rot2 * rot3 * ma2 * viewToWindow * perpectiveMat) * toHmgcoord(cube[i]);
+        toSendCoords[i] = (viewToWindow * perpectiveMat * rot3 * rot2 * rot) * toHmgcoord(cube[i]);
     }
 
     window.clearScreen();
     for (int i = 0; i < 12; i++) {
         myGL::triangle(&toSendCoords[i * 3], &window, zbuffer);
     }
-
-    // myGL::triangle(toSendCoords, &window);
-    // myGL::triangle(&toSendCoords[3], &window);
     window.show();
-
 }
