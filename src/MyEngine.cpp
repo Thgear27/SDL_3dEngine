@@ -10,7 +10,8 @@ const int width  = 920;
 const int height = 720;
 
 myEngine::myEngine()
-    : window { "Ventana", width, height } {
+    : window { "Ventana", width, height }
+    , texture { "imgs/block.jpg" } {
     keyState = SDL_GetKeyboardState(nullptr);
     zbuffer  = new float[window.m_width * window.m_height];
 }
@@ -42,53 +43,103 @@ void myEngine::renderAll() {
     float h = (3.14f * std::sin((float)SDL_GetTicks() / 1000));
 
     vec3f cube[] = {
-        vec3f { -0.5f, -0.5f, -0.5f }, //
-        vec3f { 0.5f, -0.5f, -0.5f },  //
+        vec3f { 0.5f, -0.5f, -0.5f },  // BIEN
+        vec3f { -0.5f, -0.5f, -0.5f }, // 
         vec3f { 0.5f, 0.5f, -0.5f },   //
 
-        vec3f { 0.5f, 0.5f, -0.5f },   //
-        vec3f { -0.5f, 0.5f, -0.5f },  //
+        vec3f { -0.5f, 0.5f, -0.5f },  // BIEN
+        vec3f { 0.5f, 0.5f, -0.5f },   // 
         vec3f { -0.5f, -0.5f, -0.5f }, //
 
-        vec3f { -0.5f, -0.5f, 0.5f }, //
+        vec3f { -0.5f, -0.5f, 0.5f }, // BIEN
         vec3f { 0.5f, -0.5f, 0.5f },  //
         vec3f { 0.5f, 0.5f, 0.5f },   //
 
-        vec3f { 0.5f, 0.5f, 0.5f },   //
+        vec3f { 0.5f, 0.5f, 0.5f },   // BIEN
         vec3f { -0.5f, 0.5f, 0.5f },  //
         vec3f { -0.5f, -0.5f, 0.5f }, //
 
-        vec3f { -0.5f, 0.5f, 0.5f },   //
+        vec3f { -0.5f, 0.5f, 0.5f },   // BIEN
         vec3f { -0.5f, 0.5f, -0.5f },  //
         vec3f { -0.5f, -0.5f, -0.5f }, //
 
-        vec3f { -0.5f, -0.5f, -0.5f }, //
+        vec3f { -0.5f, -0.5f, -0.5f }, // BIEN
         vec3f { -0.5f, -0.5f, 0.5f },  //
         vec3f { -0.5f, 0.5f, 0.5f },   //
 
-        vec3f { 0.5f, 0.5f, 0.5f },   //
-        vec3f { 0.5f, 0.5f, -0.5f },  //
+        vec3f { 0.5f, 0.5f, -0.5f },  // BIEN
+        vec3f { 0.5f, 0.5f, 0.5f },   // 
         vec3f { 0.5f, -0.5f, -0.5f }, //
 
+        vec3f { 0.5f, -0.5f, 0.5f },  // BIEN
         vec3f { 0.5f, -0.5f, -0.5f }, //
-        vec3f { 0.5f, -0.5f, 0.5f },  //
         vec3f { 0.5f, 0.5f, 0.5f },   //
 
-        vec3f { -0.5f, -0.5f, -0.5f }, //
+        vec3f { -0.5f, -0.5f, -0.5f }, // BIEN
         vec3f { 0.5f, -0.5f, -0.5f },  //
         vec3f { 0.5f, -0.5f, 0.5f },   //
 
-        vec3f { 0.5f, -0.5f, 0.5f },   //
+        vec3f { 0.5f, -0.5f, 0.5f },   // BIEN
         vec3f { -0.5f, -0.5f, 0.5f },  //
         vec3f { -0.5f, -0.5f, -0.5f }, //
 
+        vec3f { 0.5f, 0.5f, -0.5f },  // BIEN
         vec3f { -0.5f, 0.5f, -0.5f }, //
-        vec3f { 0.5f, 0.5f, -0.5f },  //
         vec3f { 0.5f, 0.5f, 0.5f },   //
 
+        vec3f { -0.5f, 0.5f, 0.5f }, // BIEN
         vec3f { 0.5f, 0.5f, 0.5f },  //
-        vec3f { -0.5f, 0.5f, 0.5f }, //
         vec3f { -0.5f, 0.5f, -0.5f } //
+    };
+
+    vec2f uv[] = {
+        vec2f { 1.0f, 0.0f }, // 
+        vec2f { 0.0f, 0.0f }, //
+        vec2f { 1.0f, 1.0f }, //
+
+        vec2f { 0.0f, 1.0f }, // 
+        vec2f { 1.0f, 1.0f }, //
+        vec2f { 0.0f, 0.0f }, //
+
+        vec2f { 0.0f, 0.0f }, // 
+        vec2f { 1.0f, 0.0f }, // 
+        vec2f { 1.0f, 1.0f }, //
+
+        vec2f { 1.0f, 1.0f }, // 
+        vec2f { 0.0f, 1.0f }, // 
+        vec2f { 0.0f, 0.0f }, //
+
+        vec2f { 1.0f, 0.0f }, //
+        vec2f { 1.0f, 1.0f }, // 
+        vec2f { 0.0f, 1.0f }, //
+
+        vec2f { 0.0f, 1.0f }, //
+        vec2f { 0.0f, 0.0f }, // 
+        vec2f { 1.0f, 0.0f }, //
+
+        vec2f { 1.0f, 1.0f }, // 
+        vec2f { 1.0f, 0.0f }, //
+        vec2f { 0.0f, 1.0f }, //
+
+        vec2f { 0.0f, 0.0f }, // 
+        vec2f { 0.0f, 1.0f }, //
+        vec2f { 1.0f, 0.0f }, //
+
+        vec2f { 0.0f, 1.0f }, //
+        vec2f { 1.0f, 1.0f }, // 
+        vec2f { 1.0f, 0.0f }, //
+
+        vec2f { 1.0f, 0.0f }, //
+        vec2f { 0.0f, 0.0f }, // 
+        vec2f { 0.0f, 1.0f }, //
+
+        vec2f { 1.0f, 1.0f }, // 
+        vec2f { 0.0f, 1.0f }, //
+        vec2f { 1.0f, 0.0f }, //
+
+        vec2f { 0.0f, 0.0f }, // 
+        vec2f { 1.0f, 0.0f }, //
+        vec2f { 0.0f, 1.0f }  //
     };
 
     vec4f toSendCoords[36];
@@ -99,16 +150,13 @@ void myEngine::renderAll() {
     Matrix perpectiveMat = simpleProjection((float)width / height, 800);
     Matrix viewToWindow  = viewport(0, 0, window.m_width, window.m_height, window.m_height);
 
-    Matrix ma1 = translate(window.m_width / 2, window.m_height / 2, 0);
-    Matrix ma2 = translate(-window.m_width / 2, -window.m_height / 2, 0);
-
     for (int i = 0; i < 36; i++) {
-        toSendCoords[i] = (viewToWindow * perpectiveMat * rot3 * rot2 * rot) * toHmgcoord(cube[i]);
+        toSendCoords[i] = (viewToWindow * perpectiveMat * rot * rot2) * toHmgcoord(cube[i]);
     }
 
     window.clearScreen();
     for (int i = 0; i < 12; i++) {
-        myGL::triangle(&toSendCoords[i * 3], &window, zbuffer);
+        myGL::triangle(&toSendCoords[i * 3], &window, zbuffer, &uv[i * 3], texture);
     }
     window.show();
 }
