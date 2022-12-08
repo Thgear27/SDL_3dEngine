@@ -8,6 +8,7 @@ private:
     Window window;
 
     const Uint8* keyState = nullptr;
+    float* zbuffer;
 
 public:
     myEngine();

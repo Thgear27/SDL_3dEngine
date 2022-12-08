@@ -7,7 +7,7 @@
 
 namespace myGL {
 
-void triangle(vec4f* verts, Window* window);
+void triangle(vec4f* verts, Window* window, float* zbuffer);
 
 void line(vec3f p1, vec3f p2, Window* window);
 

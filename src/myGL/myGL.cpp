@@ -2,7 +2,7 @@
 
 namespace myGL {
 
-void triangle(vec4f* verts, Window* window) {
+void triangle(vec4f* verts, Window* window, float* zbuffer) {
     vec3f v3verts[3] {};
     for (int i = 0; i < 3; i++) {
         v3verts[i] = divW(verts[i]);
@@ -18,13 +18,24 @@ void triangle(vec4f* verts, Window* window) {
         boxMax.y = std::min((float)window->m_height, std::max(boxMax.y, verts[i].y));
     }
 
+    vec3f light_dir = vec3f { 0, 0, -1 };
+    vec3f normal    = crossProduct(v3verts[0] - v3verts[2], v3verts[1] - v3verts[2]);
+    light_dir.normalize();
+    normal.normalize();
+    float intensidad = light_dir * normal;
+
     for (int x = boxMin.x; x < boxMax.x; x++) {
         for (int y = boxMin.y; y < boxMax.y; y++) {
             vec3f bcoord = toBarycentricCoord(v3verts, vec2f { (float)x, (float)y });
             //    r  g  b  a
-            Color color { bcoord.x, bcoord.y, bcoord.z, 1 };
+            // Color color { bcoord.x, bcoord.y, bcoord.z, 1 };
+            Color color { intensidad, intensidad, intensidad, 1 };
             if (bcoord.x < 0.0f || bcoord.y < 0.0f || bcoord.z < 0.0f) continue;
-            window->drawPixel(x, y, color);
+            float currentZ = v3verts[0].z * bcoord.x + v3verts[1].z * bcoord.y + v3verts[2].z * bcoord.z;
+            if (currentZ > zbuffer[x + y * window->m_width]) {
+                zbuffer[x + y * window->m_width] = currentZ;
+                window->drawPixel(x, y, color);
+            }
         }
     }
 }

@@ -35,6 +35,11 @@ struct vec {
         out << "\b\b )";
         return out;
     }
+
+    inline void normalize() {
+        float modulo = std::sqrt((*this) * (*this));
+        *this = (*this) / modulo;
+    }
 };
 
 template <typename type>
@@ -80,6 +85,11 @@ struct vec<4, type> {
         out << "\b\b )";
         return out;
     }
+
+    inline void normalize() {
+        float modulo = std::sqrt((*this) * (*this));
+        *this = (*this) / modulo;
+    }
 };
 
 template <typename type>
@@ -124,6 +134,11 @@ struct vec<3, type> {
         out << "\b\b )";
         return out;
     }
+
+    inline void normalize() {
+        float modulo = std::sqrt((*this) * (*this));
+        *this = (*this) / modulo;
+    }
 };
 
 template <typename type>
@@ -166,6 +181,11 @@ struct vec<2, type> {
         }
         out << "\b\b )";
         return out;
+    }
+    
+    inline void normalize() {
+        float modulo = std::sqrt((*this) * (*this));
+        *this = (*this) / modulo;
     }
 };
 
@@ -256,6 +276,7 @@ inline vec3f toBarycentricCoord(vec3f* verts, vec2f point) {
 
 // Apply perpective division
 inline vec3f divW(const vec4f& vec) {
+    if (vec.w == 0) return vec3f { vec.x, vec.y, vec.z };
     return vec3f {
         vec.x / vec.w, //
         vec.y / vec.w, //
