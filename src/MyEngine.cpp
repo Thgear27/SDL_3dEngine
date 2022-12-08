@@ -41,15 +41,6 @@ void myEngine::renderAll() {
 
     float h = (3.14f * std::sin((float)SDL_GetTicks() / 1000));
 
-    vec3f triangleVerts[] {
-        vec3f { 0, 0.5f, 0 },      // 0
-        vec3f { -0.5f, -0.5f, 0 }, // 1
-        vec3f { 0.5f, -0.5f, 0 },  // 2
-        vec3f { 0, 0.5f, -1 },     // 3
-        vec3f { -0.5f, -0.5f, 0 }, // 4
-        vec3f { 0.5f, -0.5f, 0 }   // 5
-    };
-
     vec3f cube[] = {
         vec3f { -0.5f, -0.5f, -0.5f }, //
         vec3f { 0.5f, -0.5f, -0.5f },  //
