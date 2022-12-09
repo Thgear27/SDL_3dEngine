@@ -18,25 +18,24 @@ void triangle(vec4f* verts, Window* window, float* zbuffer, vec2f* uv, Texture& 
         boxMax.y = std::min((float)window->m_height, std::max(boxMax.y, v3verts[i].y));
     }
 
-    vec3f light_dir = vec3f { 0, 0, -1 };
+    vec3f light_dir = vec3f { 0, 1, -10 };
     vec3f normal    = crossProduct(v3verts[2] - v3verts[0], v3verts[2] - v3verts[1]);
     light_dir.normalize();
     normal.normalize();
-    float intensidad = light_dir * normal;
-    if ( intensidad < 0) intensidad = 0;
+    float intensidad = std::min(std::max(0.0f, 0.5f + light_dir * normal), 1.0f);
 
     for (int x = boxMin.x; x < boxMax.x; x++) {
         for (int y = boxMin.y; y < boxMax.y; y++) {
             vec3f bcoord = toBarycentricCoord(v3verts, vec2f { (float)x, (float)y });
             //    r  g  b  a
             // Color color { bcoord.x, bcoord.y, bcoord.z, 1 };
-            // Color color { intensidad, intensidad, intensidad, 1 };
+            Color color { intensidad, intensidad, intensidad, 1 };
             if (bcoord.x < 0.0f || bcoord.y < 0.0f || bcoord.z < 0.0f) continue;
             float currentZ = v3verts[0].z * bcoord.x + v3verts[1].z * bcoord.y + v3verts[2].z * bcoord.z;
             if (currentZ > zbuffer[x + y * window->m_width]) {
                 zbuffer[x + y * window->m_width] = currentZ;
 
-                Color color = texture.getColor(uv, bcoord);
+                // Color color = texture.getColor(uv, bcoord);
                 color.r *= intensidad;
                 color.g *= intensidad;
                 color.b *= intensidad;
