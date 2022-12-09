@@ -40,15 +40,15 @@ void myEngine::renderAll() {
         zbuffer[i] = -std::numeric_limits<float>::max();
     }
 
-    float h = (3.14f * std::sin((float)SDL_GetTicks() / 1000));
+    float h = (3.14f * std::sin((float)SDL_GetTicks() / 10000));
 
     vec3f cube[] = {
         vec3f { 0.5f, -0.5f, -0.5f },  // BIEN
-        vec3f { -0.5f, -0.5f, -0.5f }, // 
+        vec3f { -0.5f, -0.5f, -0.5f }, //
         vec3f { 0.5f, 0.5f, -0.5f },   //
 
         vec3f { -0.5f, 0.5f, -0.5f },  // BIEN
-        vec3f { 0.5f, 0.5f, -0.5f },   // 
+        vec3f { 0.5f, 0.5f, -0.5f },   //
         vec3f { -0.5f, -0.5f, -0.5f }, //
 
         vec3f { -0.5f, -0.5f, 0.5f }, // BIEN
@@ -68,7 +68,7 @@ void myEngine::renderAll() {
         vec3f { -0.5f, 0.5f, 0.5f },   //
 
         vec3f { 0.5f, 0.5f, -0.5f },  // BIEN
-        vec3f { 0.5f, 0.5f, 0.5f },   // 
+        vec3f { 0.5f, 0.5f, 0.5f },   //
         vec3f { 0.5f, -0.5f, -0.5f }, //
 
         vec3f { 0.5f, -0.5f, 0.5f },  // BIEN
@@ -93,51 +93,51 @@ void myEngine::renderAll() {
     };
 
     vec2f uv[] = {
-        vec2f { 1.0f, 0.0f }, // 
+        vec2f { 1.0f, 0.0f }, //
         vec2f { 0.0f, 0.0f }, //
         vec2f { 1.0f, 1.0f }, //
 
-        vec2f { 0.0f, 1.0f }, // 
+        vec2f { 0.0f, 1.0f }, //
         vec2f { 1.0f, 1.0f }, //
         vec2f { 0.0f, 0.0f }, //
 
-        vec2f { 0.0f, 0.0f }, // 
-        vec2f { 1.0f, 0.0f }, // 
+        vec2f { 0.0f, 0.0f }, //
+        vec2f { 1.0f, 0.0f }, //
         vec2f { 1.0f, 1.0f }, //
 
-        vec2f { 1.0f, 1.0f }, // 
-        vec2f { 0.0f, 1.0f }, // 
+        vec2f { 1.0f, 1.0f }, //
+        vec2f { 0.0f, 1.0f }, //
         vec2f { 0.0f, 0.0f }, //
 
         vec2f { 1.0f, 0.0f }, //
-        vec2f { 1.0f, 1.0f }, // 
+        vec2f { 1.0f, 1.0f }, //
         vec2f { 0.0f, 1.0f }, //
 
         vec2f { 0.0f, 1.0f }, //
-        vec2f { 0.0f, 0.0f }, // 
+        vec2f { 0.0f, 0.0f }, //
         vec2f { 1.0f, 0.0f }, //
 
-        vec2f { 1.0f, 1.0f }, // 
+        vec2f { 1.0f, 1.0f }, //
         vec2f { 1.0f, 0.0f }, //
         vec2f { 0.0f, 1.0f }, //
 
-        vec2f { 0.0f, 0.0f }, // 
-        vec2f { 0.0f, 1.0f }, //
-        vec2f { 1.0f, 0.0f }, //
-
-        vec2f { 0.0f, 1.0f }, //
-        vec2f { 1.0f, 1.0f }, // 
-        vec2f { 1.0f, 0.0f }, //
-
-        vec2f { 1.0f, 0.0f }, //
-        vec2f { 0.0f, 0.0f }, // 
-        vec2f { 0.0f, 1.0f }, //
-
-        vec2f { 1.0f, 1.0f }, // 
+        vec2f { 0.0f, 0.0f }, //
         vec2f { 0.0f, 1.0f }, //
         vec2f { 1.0f, 0.0f }, //
 
-        vec2f { 0.0f, 0.0f }, // 
+        vec2f { 0.0f, 1.0f }, //
+        vec2f { 1.0f, 1.0f }, //
+        vec2f { 1.0f, 0.0f }, //
+
+        vec2f { 1.0f, 0.0f }, //
+        vec2f { 0.0f, 0.0f }, //
+        vec2f { 0.0f, 1.0f }, //
+
+        vec2f { 1.0f, 1.0f }, //
+        vec2f { 0.0f, 1.0f }, //
+        vec2f { 1.0f, 0.0f }, //
+
+        vec2f { 0.0f, 0.0f }, //
         vec2f { 1.0f, 0.0f }, //
         vec2f { 0.0f, 1.0f }  //
     };
@@ -147,11 +147,11 @@ void myEngine::renderAll() {
     Matrix rot           = rotatey(h);
     Matrix rot2          = rotatex(h);
     Matrix rot3          = rotatez(h);
-    Matrix perpectiveMat = simpleProjection((float)width / height, 800);
-    Matrix viewToWindow  = viewport(0, 0, window.m_width, window.m_height, window.m_height);
+    Matrix perpectiveMat = simpleProjection((float)width / height, 1);
+    Matrix viewToWindow  = viewport(0, 0, window.m_width, window.m_height, 255);
 
     for (int i = 0; i < 36; i++) {
-        toSendCoords[i] = (viewToWindow * perpectiveMat * rot * rot2) * toHmgcoord(cube[i]);
+        toSendCoords[i] = viewToWindow * perpectiveMat * ( translate(0, 0, -0.5f) * rot * rot2 * toHmgcoord(cube[i]));
     }
 
     window.clearScreen();

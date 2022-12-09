@@ -3,6 +3,7 @@
 
 #include <array>
 #include <iostream>
+#include <cmath>
 
 #include "Vector.hpp"
 
@@ -109,7 +110,7 @@ static Matrix<size, size> MatrixIdentity() {
 ///////////////////////////////////////////////////////////////////////
 //// GL MATRIXES
 
-inline Matrix<4, 4> translate(int x, int y, int z) {
+inline Matrix<4, 4> translate(float x, float y, float z) {
     Matrix mat = MatrixIdentity<4>();
     mat[0][3]  = x;
     mat[1][3]  = y;
@@ -154,7 +155,7 @@ inline Matrix<4, 4> shear(float x, float y) {
 inline Matrix<4, 4> viewport(int x, int y, int w, int h, int depth) {
     Matrix mat = MatrixIdentity<4>();
     mat[0][0]  = w / 2.0f;
-    mat[1][1]  = h / 2.0f; // Negativo para hacer un flip vertical
+    mat[1][1]  = -h / 2.0f; // Negativo para hacer un flip vertical
     mat[2][2]  = depth / 2.0f;
 
     mat[0][3] = w / 2.0f + x;
@@ -186,7 +187,7 @@ inline Matrix<4, 4> viewport(int x, int y, int w, int h, int depth) {
 inline Matrix<4, 4> simpleProjection(float aspectRatio, int zDistance) {
     Matrix mat    = MatrixIdentity<4>();
     mat[0][0]     = 1.0f / (aspectRatio);
-    mat[3][2]     = -1 / (float)zDistance;
+    mat[3][2]     = -1.0f / (float)zDistance;
     return mat;
 }
 

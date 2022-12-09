@@ -11,15 +11,15 @@ void triangle(vec4f* verts, Window* window, float* zbuffer, vec2f* uv, Texture& 
     vec2f boxMin = vec2f { (float)window->m_width, (float)window->m_height };
     vec2f boxMax = vec2f { 0, 0 };
     for (int i = 0; i < 3; i++) {
-        boxMin.x = std::max(0.0f, std::min(boxMin.x, verts[i].x));
-        boxMin.y = std::max(0.0f, std::min(boxMin.y, verts[i].y));
+        boxMin.x = std::max(0.0f, std::min(boxMin.x, v3verts[i].x));
+        boxMin.y = std::max(0.0f, std::min(boxMin.y, v3verts[i].y));
 
-        boxMax.x = std::min((float)window->m_width, std::max(boxMax.x, verts[i].x));
-        boxMax.y = std::min((float)window->m_height, std::max(boxMax.y, verts[i].y));
+        boxMax.x = std::min((float)window->m_width, std::max(boxMax.x, v3verts[i].x));
+        boxMax.y = std::min((float)window->m_height, std::max(boxMax.y, v3verts[i].y));
     }
 
     vec3f light_dir = vec3f { 0, 0, -1 };
-    vec3f normal    = crossProduct(v3verts[2] - v3verts[1], v3verts[2] - v3verts[0]);
+    vec3f normal    = crossProduct(v3verts[2] - v3verts[0], v3verts[2] - v3verts[1]);
     light_dir.normalize();
     normal.normalize();
     float intensidad = light_dir * normal;
