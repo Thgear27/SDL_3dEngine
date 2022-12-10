@@ -26,16 +26,24 @@ void triangle(vec4f* verts, Window* window, float* zbuffer, vec2f* uv, Texture& 
 
     for (int x = boxMin.x; x < boxMax.x; x++) {
         for (int y = boxMin.y; y < boxMax.y; y++) {
-            vec3f bcoord = toBarycentricCoord(v3verts, vec2f { (float)x, (float)y });
+            vec3f bcoord   = toBarycentricCoord(v3verts, vec2f { (float)x, (float)y });
+            vec3f bc_world = vec3f {
+                bcoord.x / verts[0].w, //
+                bcoord.y / verts[1].w, //
+                bcoord.z / verts[2].w  //
+            };
+
+            bc_world = bc_world / (bc_world.x + bc_world.y + bc_world.z);
             //    r  g  b  a
             // Color color { bcoord.x, bcoord.y, bcoord.z, 1 };
-            Color color { intensidad, intensidad, intensidad, 1 };
+            // Color color { intensidad, intensidad, intensidad, 1 };
             if (bcoord.x < 0.0f || bcoord.y < 0.0f || bcoord.z < 0.0f) continue;
             float currentZ = v3verts[0].z * bcoord.x + v3verts[1].z * bcoord.y + v3verts[2].z * bcoord.z;
+
             if (currentZ > zbuffer[x + y * window->m_width]) {
                 zbuffer[x + y * window->m_width] = currentZ;
 
-                // Color color = texture.getColor(uv, bcoord);
+                Color color = texture.getColor(uv, bc_world);
                 color.r *= intensidad;
                 color.g *= intensidad;
                 color.b *= intensidad;

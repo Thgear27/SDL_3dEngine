@@ -11,7 +11,7 @@ const int height = 720;
 
 myEngine::myEngine()
     : window { "Ventana", width, height }
-    , texture { "imgs/block.jpg" } {
+    , texture { "imgs/wood.jpg" } {
     keyState = SDL_GetKeyboardState(nullptr);
     zbuffer  = new float[window.m_width * window.m_height];
 }
@@ -40,7 +40,7 @@ void myEngine::renderAll() {
         zbuffer[i] = -std::numeric_limits<float>::max();
     }
 
-    float h = (3.14f * std::sin((float)SDL_GetTicks() / 10000));
+    float h = (3.14f * std::sin((float)SDL_GetTicks() / 1000));
 
     vec3f cube[] = {
         vec3f { 0.5f, -0.5f, -0.5f },  // BIEN

@@ -271,6 +271,25 @@ inline vec3f toBarycentricCoord(vec3f* verts, vec2f point) {
     return (vec3f { 1.0f - (vecRes.x + vecRes.y), vecRes.x, vecRes.y });
 }
 
+inline vec3f toBarycentricCoord(vec4f* verts, vec2f point) {
+    vec4f pointv4 = vec4f { point.x, point.y, 0, 0 };
+
+    // Asumiendo r1, r2, r3 los vertices del triangulo, y p el punto
+    // Variables que representan vectores matematicos
+    vec4f r1_r2 = verts[1] - verts[0];
+    vec4f r1_r3 = verts[2] - verts[0];
+    vec4f p_r1  = verts[0] - pointv4;
+
+    // vec3f x_values { r1_r2.x, r1_r3.x, p_r1.x };
+    // vec3f y_values { r1_r2.y, r1_r3.y, p_r1.y };
+    vec3f vecRes = crossProduct(vec3f { r1_r2.x, r1_r3.x, p_r1.x }, vec3f { r1_r2.y, r1_r3.y, p_r1.y });
+
+    if (std::abs(vecRes.z) < 1e-2) return vec3f { -1, 1, 1 };
+
+    vecRes = vecRes / vecRes.z;
+    return (vec3f { 1.0f - (vecRes.x + vecRes.y), vecRes.x, vecRes.y });
+}
+
 ////////////////////////////////////////////////////////////////////////////
 //// HOMOGENEOUSR COORDINATES
 
