@@ -26,7 +26,12 @@ void myEngine::handleEvents() {
     }
 
     if (keyState[SDL_SCANCODE_ESCAPE]) window.close();
-    if (keyState[SDL_SCANCODE_UP]) std::cout << "UP\n";
+    if (keyState[SDL_SCANCODE_UP]) v3 += 0.1f;
+    if (keyState[SDL_SCANCODE_DOWN]) v3 -= 0.1f;
+    if (keyState[SDL_SCANCODE_RIGHT]) v1 += 0.1f;
+    if (keyState[SDL_SCANCODE_LEFT]) v1 -= 0.1f;
+    if (keyState[SDL_SCANCODE_W]) v2 += 0.1f;
+    if (keyState[SDL_SCANCODE_S]) v2 -= 0.1f;
 }
 
 bool myEngine::isRunning() { return window.isRunning(); }
@@ -149,9 +154,10 @@ void myEngine::renderAll() {
     Matrix rot3          = rotatez(h);
     Matrix perpectiveMat = simpleProjection((float)width / height, 1);
     Matrix viewToWindow  = viewport(0, 0, window.m_width, window.m_height, 255);
+    Matrix view          = translate(v1, v2, v3);
 
     for (int i = 0; i < 36; i++) {
-        toSendCoords[i] = viewToWindow * perpectiveMat * ( translate(0, 0, -0.5f) * rot * rot2 * toHmgcoord(cube[i]));
+        toSendCoords[i] = viewToWindow * perpectiveMat * (view * rot * rot2 * toHmgcoord(cube[i]));
     }
 
     window.clearScreen();

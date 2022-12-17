@@ -44,6 +44,7 @@ void triangle(vec4f* verts, Window* window, float* zbuffer, vec2f* uv, Texture& 
                 zbuffer[x + y * window->m_width] = currentZ;
 
                 Color color = texture.getColor(uv, bc_world);
+                // Color color { 1, 1, 1, 1 };
                 color.r *= intensidad;
                 color.g *= intensidad;
                 color.b *= intensidad;

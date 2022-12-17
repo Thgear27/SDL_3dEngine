@@ -27,6 +27,9 @@ struct Texture {
         vec2f point = uv[0] * bcoord.x + uv[1] * bcoord.y + uv[2] * bcoord.z;
         int x       = m_width * point.x;
         int y       = m_height * point.y;
+
+        if (x >= m_width || x <= 0) return Color { 0, 0, 0, 1 }; // Por errores de memoria
+        if (y >= m_height || y <= 0) return Color { 0, 0, 0, 1 }; // Por errores de memoria
         // float r, g, b;
 
         // r = data[(x * nrChanels) + (y * m_width * nrChanels) + 0] / 255.0f;
