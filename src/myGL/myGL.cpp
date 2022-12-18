@@ -29,13 +29,13 @@ void triangle(vec4f* verts, Window* window, float* zbuffer, vec2f* uv, Texture& 
             vec3f bcoord = toBarycentricCoord(v3verts, vec2f { (float)x, (float)y });
             //    r  g  b  a
             // Color color { bcoord.x, bcoord.y, bcoord.z, 1 };
-            Color color { intensidad, intensidad, intensidad, 1 };
+            // Color color { intensidad, intensidad, intensidad, 1 };
             if (bcoord.x < 0.0f || bcoord.y < 0.0f || bcoord.z < 0.0f) continue;
             float currentZ = v3verts[0].z * bcoord.x + v3verts[1].z * bcoord.y + v3verts[2].z * bcoord.z;
             if (currentZ > zbuffer[x + y * window->m_width]) {
                 zbuffer[x + y * window->m_width] = currentZ;
 
-                // Color color = texture.getColor(uv, bcoord);
+                Color color = texture.getColor(uv, bcoord);
                 color.r *= intensidad;
                 color.g *= intensidad;
                 color.b *= intensidad;

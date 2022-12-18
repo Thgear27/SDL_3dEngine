@@ -40,7 +40,7 @@ void myEngine::renderAll() {
         zbuffer[i] = -std::numeric_limits<float>::max();
     }
 
-    float h = (3.14f * std::sin((float)SDL_GetTicks() / 10000));
+    float h = (3.14f * std::sin((float)SDL_GetTicks() / 5000));
 
     vec3f cube[] = {
         vec3f { 0.5f, -0.5f, -0.5f },  // BIEN
