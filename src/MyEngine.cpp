@@ -96,7 +96,7 @@ void myEngine::renderAll() {
     Matrix rot           = rotatey(h);
     Matrix rot2          = rotatex(h);
     Matrix rot3          = rotatez(h);
-    Matrix perpectiveMat = simpleProjection((float)width / height, 800);
+    Matrix perpectiveMat = simpleProjection((float)width / height, 3);
     Matrix viewToWindow  = viewport(0, 0, window.m_width, window.m_height, window.m_height);
 
     Matrix ma1 = translate(window.m_width / 2, window.m_height / 2, 0);
